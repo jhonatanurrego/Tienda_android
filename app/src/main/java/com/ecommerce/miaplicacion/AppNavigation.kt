@@ -9,26 +9,26 @@ import androidx.navigation.navArgument
 
 @Composable
 fun AppNavigation(){
-    val navCcontroller = rememberNavController()
-    NavHost(navController = navCcontroller, startDestination = AppsScreen.inicio.route) {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = AppsScreen.inicio.route) {
 
         composable(route = AppsScreen.inicio.route) {
-            inicio(navCcontroller)
+            inicio(navController)
         }
 
         composable(
-            route = "detalle/{imagen}/{titulo}/{descripcion}",
+            route = "detalle/{imagen}/{nombre}/{precio}", //
             arguments = listOf(
                 navArgument("imagen") { type = NavType.IntType },
-                navArgument("titulo") { type = NavType.StringType },
-                navArgument("descripcion") { type = NavType.StringType }
+                navArgument("nombre") { type = NavType.IntType },
+                navArgument("precio") { type = NavType.IntType }
             )
         ) { backStackEntry ->
             val imagen = backStackEntry.arguments?.getInt("imagen") ?: 0
-            val titulo = backStackEntry.arguments?.getString("titulo").orEmpty()
-            val descripcion = backStackEntry.arguments?.getString("descripcion").orEmpty()
+            val nombre = backStackEntry.arguments?.getInt("nombre") ?: 0
+            val precio = backStackEntry.arguments?.getInt("precio") ?: 0
 
-            detalle(navCcontroller,imagen,titulo,descripcion)
+            detalle(navController,imagen,nombre,precio)
 
         }
     }

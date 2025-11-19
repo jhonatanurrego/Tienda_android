@@ -1,12 +1,16 @@
 package com.ecommerce.miaplicacion
 
 import android.annotation.SuppressLint
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,9 +22,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -38,6 +47,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -47,103 +57,141 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.ecommerce.miaplicacion.ui.theme.MiAplicacionTheme
 
 
-
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun detalle(navController: NavController,imagen: Int,titulo: String,descripcion: String) {
-    var mostrarDialogo by remember { mutableStateOf(false) }
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(titulo) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface
-                )
-            )
-        },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .height(100.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ){
-                    Button(
-                        onClick = { navController.popBackStack()},
-                    ) {
-                        Text("Volver")
-                    }
+fun detalle(
+    navController: NavController,
+    @DrawableRes imagen: Int,
+    @StringRes nombre: Int,
+    precio: Int,
+) {
 
-                }
-            }
-        },
-        containerColor = MaterialTheme.colorScheme.background,
+    val productName = if (nombre != -1) {
+        stringResource(id = nombre)
+    } else {
+        "Producto Desconocido"
+    }
 
-    ) {
-        LazyColumn(
-            Modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.surface)
-        ) {
-            item {
-                Box(
-                    modifier = Modifier
-                        .width(400.dp)
-                        .padding(top = 120.dp)
-                    ,
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = imagen),
-                        "Primera imagen",
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(250.dp)
-                            .clickable { mostrarDialogo = true }
-                    )
-                }
-            }
-            item {
-                Text(
-                    text = descripcion,
-                    color = Color.White,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 30.dp, top = 30.dp, bottom = 100.dp, end = 30.dp)
-                )
-                if (mostrarDialogo) {
-                    Dialog(onDismissRequest = { mostrarDialogo = false }) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clickable { mostrarDialogo = false },
-                            contentAlignment = Alignment.Center,
-                            ) {
-                            Image(
-                                painter = painterResource(id = imagen),
-                                contentDescription = titulo,
-                                contentScale = ContentScale.Fit,
+    // Formatear el precio como una moneda.
+    val formattedPrice = "$${String.format("%.2f", precio.toDouble())}"
+
+
+    MiAplicacionTheme(darkTheme = true){
+        Scaffold(
+            topBar = {
+
+                CenterAlignedTopAppBar(
+                    title = {  },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = { navController.popBackStack() }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.flechaatras),
+                                contentDescription = "d",
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clip(RoundedCornerShape(12.dp))
+                                    .size(20.dp)
                             )
                         }
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = {}
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.corazon),
+                                "icono",
+                                modifier = Modifier
+                                    .padding(4.dp),
+                                tint = Color.White
+                            )
+                        }
+                    }
+                )
+            }
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+
+                if (imagen != -1) {
+                    Image(
+                        painter = painterResource(id = imagen),
+                        contentDescription = productName,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.75f)
+                            .align(Alignment.TopCenter)
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.75f)
+                            .background(MaterialTheme.colorScheme.errorContainer)
+                            .align(Alignment.TopCenter),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Error: Imagen no válida",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                        .background(Color(0xFF232529))
+                        .padding(24.dp)
+                ) {
+                    Text(
+                        text = productName,
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = formattedPrice,
+                        color = Color.White.copy(alpha = 0.8f),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    Button(
+                        onClick = {  },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF1E88E5),
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(
+                            text = "Add to Bag",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }
         }
     }
+
+
 }
-
-
