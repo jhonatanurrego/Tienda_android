@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Mi aplicacion</string>
-    <string name="nombreImagen_1">Mi aplicacion</string>
-    <string name="nombreImagen_2">Mi aplicacion</string>
-    <string name="nombreImagen_3">Mi aplicacion</string>
-    <string name="nombreImagen_4">Mi aplicacion</string>
-    <string name="nombreImagen_5">Mi aplicacion</string>
-    <string name="nombreImagen_6">Mi aplicacion</string>
+    <string name="nombreImagen_1">DOUBLE SIDE JACKET</string>
+    <string name="nombreImagen_2">JACKET REMOVIBLE SLEEVES</string>
+    <string name="nombreImagen_3">CMSTA MC SLIM FIT</string>
+    <string name="nombreImagen_4">Camiseta Manga Corta Basica</string>
+    <string name="nombreImagen_5">POLO MC CLASSIC FIT</string>
+    <string name="nombreImagen_6">Chaqueta BOMBER en null</string>
 </resources>

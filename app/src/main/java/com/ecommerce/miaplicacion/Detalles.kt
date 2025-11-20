@@ -76,8 +76,7 @@ fun detalle(
     }
 
     // Formatear el precio como una moneda.
-    val formattedPrice = "$${String.format("%.2f", precio.toDouble())}"
-
+    //val formattedPrice = "$${String.format("%.2f", precio.toDouble())}"
 
     MiAplicacionTheme(darkTheme = true){
         Scaffold(
@@ -163,7 +162,7 @@ fun detalle(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = formattedPrice,
+                        text = "$" + precio.toString(),
                         color = Color.White.copy(alpha = 0.8f),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold

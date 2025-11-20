@@ -79,7 +79,7 @@ fun ProductItem(
                 )
 
                 Text(
-                    text = "%d".format(producto.precio),
+                    text = "$%d".format(producto.precio),
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal
